@@ -2,11 +2,17 @@ package com.barney.bookstoreapi.service;
 
 import com.barney.bookstoreapi.bean.BookVO;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.barney.bookstoreapi.repository.BookstoreDAO;
 
 import java.util.List;
 
 @Service
 public class BookstoreServiceImpl implements BookstoreService{
+	
+	@Autowired
+	private BookstoreDAO bookstoreDAO;
+	
     @Override
     public void createBook(BookVO bookVO) {
 
@@ -25,5 +31,11 @@ public class BookstoreServiceImpl implements BookstoreService{
     @Override
     public String deleteBook(String ISBN) {
         return null;
+    }
+    
+    //test用
+    @Override
+    public void save(BookVO bookVO) {
+    	bookstoreDAO.createBook(bookVO);
     }
 }

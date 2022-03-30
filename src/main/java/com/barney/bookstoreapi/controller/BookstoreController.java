@@ -16,8 +16,9 @@ public class BookstoreController {
     @Autowired
     private BookstoreService bookstoreService;
 
-    @RequestMapping(value = "/barney/createBook",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public @ResponseBody ResponseWrapper<String> createBook(@RequestBody RequestWrapper<BookVO> requestObject) {
+    //新增書籍API
+    @PostMapping("/barney/createBook")
+    public @ResponseBody ResponseWrapper<String> createBook(@RequestBody RequestWrapper<BookVO> requestObject) throws Exception {
         BookVO bookVO = requestObject.getModel();
         ResponseWrapper<String> responseWrapper = new ResponseWrapper<>();
         ResponseHeader responseHeader = new ResponseHeader();
@@ -34,6 +35,65 @@ public class BookstoreController {
 
         return responseWrapper;
     }
+    
+//    //更新書籍API
+//    @PostMapping("/barney/updateBook")
+//    public @ResponseBody ResponseWrapper<String> updateBook(@RequestBody RequestWrapper<BookVO> requestObject) throws Exception {
+//        BookVO bookVO = requestObject.getModel();
+//        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>();
+//        ResponseHeader responseHeader = new ResponseHeader();
+//        try {
+//            String resultMessage = bookstoreService.updateBook(bookVO);
+//            responseHeader.setErrorCode("0000");
+//            responseHeader.setErrorCode("新增成功");
+//        }catch (Exception e){
+//            responseHeader.setErrorCode("9999");
+//            responseHeader.setErrorCode("新增失敗");
+//        }
+//        responseWrapper.setHeader(responseHeader);
+//        responseWrapper.setModel(resultMessage);
+//
+//        return responseWrapper;
+//    }
+//    
+//    //查詢全部書籍API
+//    @PostMapping("/barney/searchAllBook")
+//    public @ResponseBody ResponseWrapper<List<BookVO>> searchAllBook() throws Exception {
+//        ResponseWrapper<List<BookVO>> responseWrapper = new ResponseWrapper<>();
+//        ResponseHeader responseHeader = new ResponseHeader();
+//        try {
+//            List<BookVO> bookVOList = bookstoreService.searchAllBook();
+//            responseHeader.setErrorCode("0000");
+//            responseHeader.setErrorCode("新增成功");
+//        }catch (Exception e){
+//            responseHeader.setErrorCode("9999");
+//            responseHeader.setErrorCode("新增失敗");
+//        }
+//        responseWrapper.setHeader(responseHeader);
+//        responseWrapper.setModel(bookVOList);
+//
+//        return responseWrapper;
+//    }
+//    
+//    //刪除書籍API
+//    @PostMapping("/barney/deleteBook")
+//    public @ResponseBody ResponseWrapper<String> deleteBook(@RequestBody RequestWrapper<String> requestObject) throws Exception {
+//        String ISBN = requestObject.getModel();
+//        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>();
+//        ResponseHeader responseHeader = new ResponseHeader();
+//        try {
+//        	String resultMessage = bookstoreService.deleteBook(ISBN);
+//            responseHeader.setErrorCode("0000");
+//            responseHeader.setErrorCode("新增成功");
+//        }catch (Exception e){
+//            responseHeader.setErrorCode("9999");
+//            responseHeader.setErrorCode("新增失敗");
+//        }
+//        responseWrapper.setHeader(responseHeader);
+//        responseWrapper.setModel(resultMessage);
+//
+//        return responseWrapper;
+//    }
 
     @GetMapping(path = "/v1/barney")
     public BookVO hello() {
