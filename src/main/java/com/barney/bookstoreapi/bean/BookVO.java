@@ -1,38 +1,52 @@
 package com.barney.bookstoreapi.bean;
 
-import lombok.AllArgsConstructor;
+import javax.persistence.*;
+
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.math.BigDecimal;
-
+@Entity
+@Table(name = "BOOK_INFO")
 @Data
-@AllArgsConstructor
 public class BookVO {
 
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
 
-    private String bookName;
 
-    private String author;
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid.hex")
+    @Column(name = "OID")
+    private String OID;
 
-    private String translator;
 
+    @Column(name="ISBN")
     private String ISBN;
-
+    @Column(name="BOOK_NAME")
+    private String bookName;
+    @Column(name="AUTHOR")
+    private String author;
+    @Column(name="TRANSLATOR")
+    private String translator;
+    @Column(name="PUBLISHER")
     private String publisher;
-
+    @Column(name="PUBLISHDATE")
     private String publishDate;
+    @Column(name="PRICE")
+    private Integer price;
 
-    private BigDecimal price;
-
-    public BookVO(String bookName, String author, String translator, String ISBN, String publisher, String publishDate, int price) {
+    public BookVO(String bookName, String author, String translator, String ISBN, String publisher, String publishDate, Integer price) {
         this.bookName = bookName;
         this.author = author;
         this.translator = translator;
         this.ISBN = ISBN;
         this.publisher = publisher;
         this.publishDate = publishDate;
-        this.price = BigDecimal.valueOf(price);
+        this.price = price;
+    }
+
+    public BookVO() {
+
     }
 }
 

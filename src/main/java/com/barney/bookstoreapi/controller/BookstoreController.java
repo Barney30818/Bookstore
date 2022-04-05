@@ -4,13 +4,16 @@ import com.barney.bookstoreapi.bean.BookVO;
 import com.barney.bookstoreapi.bean.RequestWrapper;
 import com.barney.bookstoreapi.bean.ResponseHeader;
 import com.barney.bookstoreapi.bean.ResponseWrapper;
+import com.barney.bookstoreapi.repository.BookstoreDAO;
 import com.barney.bookstoreapi.service.BookstoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 public class BookstoreController {
 
     @Autowired
@@ -25,76 +28,79 @@ public class BookstoreController {
         try {
             bookstoreService.createBook(bookVO);
             responseHeader.setErrorCode("0000");
-            responseHeader.setErrorCode("新增成功");
+            responseHeader.setErrorDesc("新增成功");
+            responseWrapper.setModel("");
         }catch (Exception e){
             responseHeader.setErrorCode("9999");
-            responseHeader.setErrorCode("新增失敗");
+            responseHeader.setErrorDesc(e.getMessage());
         }
         responseWrapper.setHeader(responseHeader);
-        responseWrapper.setModel("success");
 
         return responseWrapper;
     }
     
-//    //更新書籍API
-//    @PostMapping("/barney/updateBook")
-//    public @ResponseBody ResponseWrapper<String> updateBook(@RequestBody RequestWrapper<BookVO> requestObject) throws Exception {
-//        BookVO bookVO = requestObject.getModel();
-//        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>();
-//        ResponseHeader responseHeader = new ResponseHeader();
-//        try {
-//            String resultMessage = bookstoreService.updateBook(bookVO);
-//            responseHeader.setErrorCode("0000");
-//            responseHeader.setErrorCode("新增成功");
-//        }catch (Exception e){
-//            responseHeader.setErrorCode("9999");
-//            responseHeader.setErrorCode("新增失敗");
-//        }
-//        responseWrapper.setHeader(responseHeader);
-//        responseWrapper.setModel(resultMessage);
-//
-//        return responseWrapper;
-//    }
-//    
-//    //查詢全部書籍API
-//    @PostMapping("/barney/searchAllBook")
-//    public @ResponseBody ResponseWrapper<List<BookVO>> searchAllBook() throws Exception {
-//        ResponseWrapper<List<BookVO>> responseWrapper = new ResponseWrapper<>();
-//        ResponseHeader responseHeader = new ResponseHeader();
-//        try {
-//            List<BookVO> bookVOList = bookstoreService.searchAllBook();
-//            responseHeader.setErrorCode("0000");
-//            responseHeader.setErrorCode("新增成功");
-//        }catch (Exception e){
-//            responseHeader.setErrorCode("9999");
-//            responseHeader.setErrorCode("新增失敗");
-//        }
-//        responseWrapper.setHeader(responseHeader);
-//        responseWrapper.setModel(bookVOList);
-//
-//        return responseWrapper;
-//    }
-//    
-//    //刪除書籍API
-//    @PostMapping("/barney/deleteBook")
-//    public @ResponseBody ResponseWrapper<String> deleteBook(@RequestBody RequestWrapper<String> requestObject) throws Exception {
-//        String ISBN = requestObject.getModel();
-//        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>();
-//        ResponseHeader responseHeader = new ResponseHeader();
-//        try {
-//        	String resultMessage = bookstoreService.deleteBook(ISBN);
-//            responseHeader.setErrorCode("0000");
-//            responseHeader.setErrorCode("新增成功");
-//        }catch (Exception e){
-//            responseHeader.setErrorCode("9999");
-//            responseHeader.setErrorCode("新增失敗");
-//        }
-//        responseWrapper.setHeader(responseHeader);
-//        responseWrapper.setModel(resultMessage);
-//
-//        return responseWrapper;
-//    }
+    //更新書籍API
+    @PostMapping("/barney/updateBook")
+    public @ResponseBody ResponseWrapper<String> updateBook(@RequestBody RequestWrapper<BookVO> requestObject) throws Exception {
+        //假設用此API做更新仍傳遞整個BookVO物件，欲更新欄位已在物件內更改
+        BookVO bookVO = requestObject.getModel();
+        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>();
+        ResponseHeader responseHeader = new ResponseHeader();
+        try {
+            String resultMessage = bookstoreService.updateBookInfo(bookVO);
+            responseHeader.setErrorCode("0000");
+            responseHeader.setErrorCode("更新成功");
+            responseWrapper.setModel("");
+        }catch (Exception e){
+            responseHeader.setErrorCode("9999");
+            responseHeader.setErrorDesc(e.getMessage());
+        }
+        responseWrapper.setHeader(responseHeader);
 
+        return responseWrapper;
+    }
+
+    //查詢全部書籍API
+    @PostMapping("/barney/searchAllBook")
+    public @ResponseBody ResponseWrapper<List<BookVO>> searchAllBook() throws Exception {
+        ResponseWrapper<List<BookVO>> responseWrapper = new ResponseWrapper<>();
+        ResponseHeader responseHeader = new ResponseHeader();
+        List<BookVO> bookVOList = new ArrayList<>();
+        try {
+            bookVOList = bookstoreService.searchAllBook();
+            responseHeader.setErrorCode("0000");
+            responseHeader.setErrorCode("查詢成功");
+        }catch (Exception e){
+            responseHeader.setErrorCode("9999");
+            responseHeader.setErrorCode("查詢失敗");
+        }
+        responseWrapper.setHeader(responseHeader);
+        responseWrapper.setModel(bookVOList);
+
+        return responseWrapper;
+    }
+
+    //刪除書籍API
+    @PostMapping("/barney/deleteBook")
+    public @ResponseBody ResponseWrapper<String> deleteBook(@RequestBody RequestWrapper<String> requestObject) throws Exception {
+        String oid = requestObject.getModel();
+        ResponseWrapper<String> responseWrapper = new ResponseWrapper<>();
+        ResponseHeader responseHeader = new ResponseHeader();
+        try {
+        	String resultMessage = bookstoreService.deleteBook(oid);
+            responseHeader.setErrorCode("0000");
+            responseHeader.setErrorCode("刪除成功");
+            responseWrapper.setModel("");
+        }catch (Exception e){
+            responseHeader.setErrorCode("9999");
+            responseHeader.setErrorDesc(e.getMessage());
+        }
+        responseWrapper.setHeader(responseHeader);
+
+        return responseWrapper;
+    }
+
+    //測試API用
     @GetMapping(path = "/v1/barney")
     public BookVO hello() {
         BookVO bookVO = new BookVO(
@@ -107,10 +113,5 @@ public class BookstoreController {
                 300
         );
         return bookVO;
-    }
-
-    @GetMapping("/v2/barney")
-    public String hey() {
-        return new String("123");
     }
 }

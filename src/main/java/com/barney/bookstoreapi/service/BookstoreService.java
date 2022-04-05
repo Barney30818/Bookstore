@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface BookstoreService {
 
-    void createBook(BookVO bookVO);
+    void createBook(BookVO bookVO) throws Exception ;
 
-    String updateBookInfo(BookVO bookVO);
+    String updateBookInfo(BookVO bookVO) throws Exception ;
 
-    List<BookVO> searchAllBook();
+    List<BookVO> searchAllBook() throws Exception ;
 
-    String deleteBook(String ISBN);
+    String deleteBook(String oid) throws Exception ;
 }
