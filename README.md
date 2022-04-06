@@ -50,7 +50,7 @@ Spec
 
 **二、API說明**
   
-  * createBook(新增)
+  * createBook(新增書籍資料)
 
 ```
 POST /barney/createBook
@@ -58,11 +58,38 @@ POST /barney/createBook
 | 標題行 | 值 |
 |---------|---------|
 | 資料類型   | JSON  |
-| 傳入值     | BookVO> |
+| 傳入值     | BookVO |
 | 傳出值      | null  |
 
-  * searchAllBook(查詢所有出籍資料)
+  * searchAllBook(查詢所有書籍資料)
 
 ```
-POST /barney/createBook
+POST /barney/searchAllBook
 ```
+| 標題行 | 值 |
+|---------|---------|
+| 資料類型   | JSON  |
+| 傳入值     | null |
+| 傳出值      | List< BookVO> |
+
+  * updateBook(更新書籍資料)
+
+```
+POST /barney/updateBook
+```
+| 標題行 | 值 |
+|---------|---------|
+| 資料類型   | JSON  |
+| 傳入值     | BookVO |
+| 傳出值      | null |
+
+  * deleteBook(刪除書籍資料)
+
+```
+POST /barney/deleteBook
+```
+| 標題行 | 值 |
+|---------|---------|
+| 資料類型   | JSON  |
+| 傳入值     | String(oid) |
+| 傳出值      | null |
