@@ -3,6 +3,16 @@ Bookstore RESTful API practice
 
 此專案實作了簡單的CRUD四支API，如下
 
+Requirements
+----------
+* Java 17
+* Spring boot
+* JPA
+* H2 Database(in memory)
+
+Spec
+----------
+
 **一、物件說明**
 
   * BookVO
@@ -48,5 +58,11 @@ POST /barney/createBook
 | 標題行 | 值 |
 |---------|---------|
 | 資料類型   | JSON  |
-| 傳入值     | BookVO  |
+| 傳入值     | BookVO> |
 | 傳出值      | null  |
+
+  * searchAllBook(查詢所有出籍資料)
+
+```
+POST /barney/createBook
+```
